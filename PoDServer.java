@@ -3,9 +3,6 @@
  * description: A simple TCP Poem of the Day server that sends poems to a client based on the client's choice.
  * date: July 8, 2025
  * author: Dylan Phillips
- * student id: 3753433
- * version: 1.0
- * Question 1
  * copyright: 2025 Dylan Phillips
  */
 
