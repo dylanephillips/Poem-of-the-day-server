@@ -1,0 +1,71 @@
+Poem of the Day (PoD) Protocol
+------------------------------
+
+This document explains how my Poem of the Day (PoD) server and any client communicate with each other. I describe it as a Finite-State Machine (FSM) so it’s clear what happens step by step.
+
+Purpose:
+--------
+The PoD server lets a client connect and get one poem from a small list. The client can choose which poem they want by typing a number.
+
+States (FSM):
+-------------
+S0 - Waiting:
+   - The server is waiting for a client to connect.
+
+S1 - Connected:
+   - The client connects. The server sends:
+     - A welcome message
+     - A numbered list of available poems
+     - Instructions for how to pick a poem
+
+S2 - Waiting for Choice:
+   - The server waits for the client to type a number.
+
+S3 - Responding:
+   - If the number is valid:
+       - The server sends back the full poem.
+   - If the number is wrong:
+       - The server sends back an error message.
+
+S4 - Closing:
+   - The server closes the connection. Then it goes back to waiting for a new client.
+
+FSM Flow:
+---------
+1) S0 → S1
+   - The server accepts a new connection.
+
+2) S1 → S2
+   - The server sends welcome + list + instructions, then waits.
+
+3) S2 → S3
+   - The client sends a number.
+   - Server checks if it’s valid or not.
+   - Sends poem or error.
+
+4) S3 → S4
+   - Server closes the connection.
+
+How to Pick a Poem:
+-------------------
+The client only needs to send one number, like `1` or `2`.
+
+What the Server Replies:
+------------------------
+- If it’s a good number: sends back the poem text.
+- If it’s not a valid number: sends back an error like “Invalid selection”.
+
+How the Session Ends:
+---------------------
+After sending the poem or the error, the server closes the connection right away. A new client can connect after.
+
+Example:
+---------
+1) Client connects with telnet.
+2) Server sends: Welcome to Poem of the Day! 
+		1) Forest Poem 
+		2) Art Poem 
+		3) Happy Poem 
+3) Client types: '2'
+4) Server sends: Art Poem
+5) Server closes connection. 
